@@ -36,6 +36,12 @@ class UserStore {
     })
   }
 
+  logout() {
+    CookieManager.clearAll((err, res) => {
+      console.log('cookies cleared!');
+    });
+  }
+
   setLoginCookie(username) {
     return new Promise((resolve, reject) => {
       let date = new Date()

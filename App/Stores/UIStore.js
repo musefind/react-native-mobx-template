@@ -1,5 +1,6 @@
 import {observable} from 'mobx'
 import {
+  NetInfo,
   LayoutAnimation,
 } from 'react-native';
 
@@ -28,6 +29,19 @@ class UIStore {
     LayoutAnimation.easeInEaseOut()
     this.flash = { message: '' }
     this.showFlash = false
+  }
+
+  handleConnectivityChange(isConnected) {
+    console.log('Connected:', isConnected)
+    if (!isConnected) {
+      this.displayFlash('No internet connection', true, false)
+    } else {
+      this.dismissFlash()
+    }
+  }
+
+  checkConnectivity() {
+    return NetInfo.isConnected.fetch()
   }
 }
 

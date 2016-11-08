@@ -13,15 +13,12 @@ import {
   TouchableHighlight
 } from 'react-native';
 import LoginView from './LoginView'
+import UserStore from '../Stores/UserStore'
 import CookieManager from 'react-native-cookies'
 
 export default class DashboardView extends Component {
   handleLogout() {
-    CookieManager.clearAll((err, res) => {
-      console.log('cookies cleared!');
-      console.log(err);
-      console.log(res);
-    });
+    UserStore.logout()
     this.props.navigator.push({
       title: 'Login',
       component: LoginView

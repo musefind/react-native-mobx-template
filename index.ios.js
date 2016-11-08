@@ -5,7 +5,8 @@ import {
   Text,
   View,
   NavigatorIOS,
-  TouchableHighlight
+  TouchableHighlight,
+  NetInfo
 } from 'react-native';
 import LoginView from './App/Views/LoginView'
 import DashboardView from './App/Views/DashboardView'
@@ -32,6 +33,10 @@ const dashboardRoute = {
 export default class ReactNativeMobxTemplate extends Component {
   componentWillMount() {
     UserStore.checkLoginStatus()
+    NetInfo.isConnected.addEventListener(
+      'change',
+      UIStore.handleConnectivityChange.bind(UIStore)
+    );
   }
 
   render() {
