@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -13,18 +7,18 @@ import {
   TouchableHighlight,
   TextInput
 } from 'react-native';
-import DashboardView from './DashboardView'
 import CookieManager from 'react-native-cookies'
+import {observable} from 'mobx'
+import {observer} from 'mobx-react/native'
 
+import DashboardView from './DashboardView'
+
+@observer
 export default class LoginView extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      username: '',
-      password: ''
-    }
-  }
-  handleGoToDashboard() {
+  @observable username = ''
+  @observable password = ''
+
+  goToDashboard() {
     this.props.navigator.push({
       title: 'Dashboard',
       component: DashboardView
@@ -32,45 +26,27 @@ export default class LoginView extends Component {
   }
 
   handleSubmitLogin() {
-    if (this.state.username && this.state.password) {
-      this.setLoginCookie()
-    }
+    this.props.userStore.login(this.username, this.password)
+      .then(() => {
+        this.goToDashboard()
+      })
   }
-
-  setLoginCookie(data) {
-    let date = new Date()
-    date.setDate(date.getDate() + 7)
-    CookieManager.set({
-      name: 'login_cookie',
-      value: this.state.username,
-      domain: 'musefind.com',
-      origin: 'musefind.com',
-      path: '/',
-      version: '1',
-      expiration: date.toJSON()
-    }, (err, res) => {
-      console.log('Cookie set')
-      console.log(res)
-      console.log(err)
-      this.handleGoToDashboard()
-    })
-  }
-
 
   render() {
     return (
       <View style={styles.container}>
         <TextInput 
           style={styles.input} 
-          placeholder="Username" 
-          value={this.state.username} 
-          onChangeText={(text) => { this.setState({ username: text }) }}/>
+          placeholder="Username"
+          autoCapitalize="none" 
+          value={this.username} 
+          onChangeText={(text) => { this.username = text }}/>
         <TextInput 
           style={styles.input} 
           placeholder="Password" 
-          value={this.state.password} 
+          value={this.password} 
           secureTextEntry={true}
-          onChangeText={(text) => { this.setState({ password: text }) }}/>
+          onChangeText={(text) => { this.password = text }}/>
         <TouchableHighlight style={styles.button} onPress={this.handleSubmitLogin.bind(this)}>
           <Text>Submit</Text>
         </TouchableHighlight>
