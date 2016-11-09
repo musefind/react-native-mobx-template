@@ -3,6 +3,7 @@ import config from '../config'
 import UIStore from './UIStore'
 import FetchResource from '../Resources/FetchResource'
 
+
 // This is an example store for holding data loaded from an external API
 class DataStore {
   @observable dataObject = {}
@@ -10,7 +11,9 @@ class DataStore {
   // Use the following boolean to display a loading indicator in the UI before data is present
   @observable listLoaded = false
 
+  // The below is what we would use to load data from an external API
   loadData() {
+    this.listLoaded = false
     FetchResource.get(config.EXAMPLE_API + '/data')
       .then((data) => {
         this.dataList = data.list

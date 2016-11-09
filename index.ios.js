@@ -12,7 +12,7 @@ import LoginView from './App/Views/LoginView'
 import DashboardView from './App/Views/DashboardView'
 import UserStore from './App/Stores/UserStore'
 import UIStore from './App/Stores/UIStore'
-
+import FetchResource from './App/Resources/FetchResource'
 import CookieManager from 'react-native-cookies'
 import {observer} from 'mobx-react/native'
 
